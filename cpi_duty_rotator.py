@@ -8,7 +8,9 @@ def main():
 
     cpi_profile = json.load(open_cpi_profile)
 
+    # Get the list of names for each role from cpi_profile.json
     informatics_specialist_list = cpi_profile["informatics_specialist"]
+    spa_list = cpi_profile["statistical_programmer_analyst"]
 
     # Read the rotator index file to get the rotator index for each element
     rotator_index_dict = {}
@@ -17,17 +19,24 @@ def main():
     rotator_file.close()
 
     print(informatics_specialist_list)
+    print(spa_list)
     print(rotator_index_dict)
 
     # Get information on IS on duty
     is_on_duty, is_on_duty_index = assign_personnel(informatics_specialist_list, rotator_index_dict,
                                                     "is_rotator_index")
-
     print("Today's IS is: " + is_on_duty)
 
-    # Increment the IS index rotator by 1
+    # Get information on SPA on duty
+    spa_on_duty, spa_on_duty_index = assign_personnel(spa_list, rotator_index_dict, "spa_rotator_index")
+    print("Today's SPA is: " + spa_on_duty)
+
+    # Increment the IS index rotator
     increment_rotator_index(informatics_specialist_list, is_on_duty_index, rotator_index_dict,
                             "is_rotator_index")
+
+    # Increment the SPA index rotator
+    increment_rotator_index(spa_list, spa_on_duty_index, rotator_index_dict, "spa_rotator_index")
 
     # Write the new index information in the rotator text file
     updated_rotator_file = open("/Users/m006703/scratch_pad/duty_rotator_index.txt", "w")

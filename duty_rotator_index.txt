@@ -1,1 +1,0 @@
-is_rotator_index=0
