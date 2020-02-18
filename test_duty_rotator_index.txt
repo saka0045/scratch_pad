@@ -1,0 +1,2 @@
+is_rotator_index=4
+spa_rotator_index=0

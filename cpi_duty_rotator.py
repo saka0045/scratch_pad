@@ -28,6 +28,10 @@ def main():
                                                     "is_rotator_index")
     print("Today's IS is: " + is_on_duty)
 
+    """
+    
+    Not sure if we need to figure out things for the whole week
+    
     # Get list of ISes on duty for the week
     number_of_IS_for_week = 4
     number_of_IS_chosen = 0
@@ -45,6 +49,7 @@ def main():
             is_list_index += 1
     print("This week's ISes are:")
     print(list_of_IS_for_week)
+    """
 
     # Get information on SPA on duty
     spa_on_duty, spa_on_duty_index = assign_personnel(spa_list, rotator_index_dict, "spa_rotator_index")
