@@ -2,6 +2,7 @@
 
 import json
 
+
 def main():
     open_cpi_profile = open("/Users/m006703/scratch_pad/cpi_profile.json", "r")
     rotator_file = open("/Users/m006703/scratch_pad/duty_rotator_index.txt", "r")
@@ -26,6 +27,24 @@ def main():
     is_on_duty, is_on_duty_index = assign_personnel(informatics_specialist_list, rotator_index_dict,
                                                     "is_rotator_index")
     print("Today's IS is: " + is_on_duty)
+
+    # Get list of ISes on duty for the week
+    number_of_IS_for_week = 4
+    number_of_IS_chosen = 0
+    list_of_IS_for_week = []
+    # Start by picking whoever is on duty at the beginning of the week
+    is_list_index = is_on_duty_index
+
+    while number_of_IS_chosen < number_of_IS_for_week:
+        if is_list_index == len(informatics_specialist_list):
+            is_list_index = 0
+        else:
+            is_for_week = informatics_specialist_list[is_list_index]["name"]
+            list_of_IS_for_week.append(is_for_week)
+            number_of_IS_chosen += 1
+            is_list_index += 1
+    print("This week's ISes are:")
+    print(list_of_IS_for_week)
 
     # Get information on SPA on duty
     spa_on_duty, spa_on_duty_index = assign_personnel(spa_list, rotator_index_dict, "spa_rotator_index")
