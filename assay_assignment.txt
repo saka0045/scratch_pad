@@ -1,0 +1,2 @@
+is_assay_groups=A,B
+spa_assay_groups=C,D

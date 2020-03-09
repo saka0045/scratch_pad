@@ -6,6 +6,7 @@ import json
 def main():
     open_cpi_profile = open("/Users/m006703/scratch_pad/cpi_profile.json", "r")
     rotator_file = open("/Users/m006703/scratch_pad/duty_rotator_index.txt", "r")
+    assay_file = open("/Users/m006703/scratch_pad/assay_assignment.txt", "r")
 
     cpi_profile = json.load(open_cpi_profile)
 
@@ -55,6 +56,23 @@ def main():
     spa_on_duty, spa_on_duty_index = assign_personnel(spa_list, rotator_index_dict, "spa_rotator_index")
     print("Today's SPA is: " + spa_on_duty)
 
+    # Assign assays to IS and SPA on duty
+    assay_assignment_dict = create_assay_assignment_dict(assay_file)
+
+    # Assign assays to IS on duty
+    is_assigned_assay_message = "Today's IS is " + is_on_duty + "."
+    is_assigned_assay_message += " Your assigned assays are:\n"
+    is_assigned_assay_message = assign_assays(assay_assignment_dict, cpi_profile, is_assigned_assay_message,
+                                              "is_assay_groups")
+    print(is_assigned_assay_message)
+
+    # Assign assays to SPA on duty
+    spa_assigned_assay_message = "Today's SPA is " + spa_on_duty + "."
+    spa_assigned_assay_message += " Your assigned assays are:\n"
+    spa_assigned_assay_message = assign_assays(assay_assignment_dict, cpi_profile, spa_assigned_assay_message,
+                                               "spa_assay_groups")
+    print(spa_assigned_assay_message)
+
     # Increment the IS index rotator
     increment_rotator_index(informatics_specialist_list, is_on_duty_index, rotator_index_dict,
                             "is_rotator_index")
@@ -70,6 +88,31 @@ def main():
 
     open_cpi_profile.close()
     updated_rotator_file.close()
+    assay_file.close()
+
+
+def assign_assays(assay_assignment_dict, cpi_profile, is_assigned_assay_message, index_string):
+    for item in assay_assignment_dict[index_string]:
+        assay_list = cpi_profile["assay_groups"][item]
+        assays = ", ".join(assay_list)
+        is_assigned_assay_message += assays + "\n"
+    return is_assigned_assay_message
+
+
+def create_assay_assignment_dict(assay_file):
+    """
+    Creates a dictionary of assay assignment depending on the assay_file
+    :param assay_file:
+    :return:
+    """
+    assay_assignment_dict = {}
+    for line in assay_file:
+        line = line.rstrip()
+        line_item = line.split("=")
+        assignment_group = line_item[0]
+        assay_list = line_item[1].split(",")
+        assay_assignment_dict[assignment_group] = assay_list
+    return assay_assignment_dict
 
 
 def assign_personnel(personnel_list, rotator_index_dict, index_string):
