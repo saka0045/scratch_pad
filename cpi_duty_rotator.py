@@ -92,6 +92,14 @@ def main():
 
 
 def assign_assays(assay_assignment_dict, cpi_profile, is_assigned_assay_message, index_string):
+    """
+    Assigns the assays and creates the message string
+    :param assay_assignment_dict:
+    :param cpi_profile:
+    :param is_assigned_assay_message:
+    :param index_string: key string for assay_assignment_dict
+    :return:
+    """
     for item in assay_assignment_dict[index_string]:
         assay_list = cpi_profile["assay_groups"][item]
         assays = ", ".join(assay_list)
